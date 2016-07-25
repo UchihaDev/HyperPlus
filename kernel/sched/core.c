@@ -6895,7 +6895,6 @@ static int sched_domains_curr_level;
  * Odd one out, which beside describing the topology has a quirk also
  * prescribes the desired behaviour that goes along with it:
  *
- * Odd one out:
  * SD_ASYM_PACKING        - describes SMT quirks
  */
 #define TOPOLOGY_SD_FLAGS		\
