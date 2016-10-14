@@ -649,12 +649,6 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
 	if (!mm->io_limit)
 		goto fail_nocontext;
 
-	blk_throtl_io_limit_init(mm->io_limit);
-#endif
-
-	if (init_new_context(p, mm))
-		goto fail_io_limit;
-
 	mm->user_ns = get_user_ns(user_ns);
 	return mm;
 
@@ -720,9 +714,6 @@ void __mmdrop(struct mm_struct *mm)
 	destroy_context(mm);
 	mmu_notifier_mm_destroy(mm);
 	check_mm(mm);
-#ifdef CONFIG_BLK_DEV_THROTTLING
-	blk_throtl_io_limit_put(mm->io_limit);
-#endif
 	put_user_ns(mm->user_ns);
 	free_mm(mm);
 }
