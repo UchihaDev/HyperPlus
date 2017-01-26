@@ -3132,6 +3132,8 @@ update_cfs_rq_load_avg(u64 now, struct cfs_rq *cfs_rq, bool update_freq)
 	if (update_freq && (decayed || removed_util))
 		cfs_rq_util_change(cfs_rq);
 
+	trace_sched_load_avg_cpu(cpu_of(rq_of(cfs_rq)), cfs_rq);
+
 	return decayed || removed;
 }
 
