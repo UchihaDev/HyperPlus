@@ -1814,7 +1814,6 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 			pr_warning("%s: mmc_select_hs400 execution"
 				   " failed\n", mmc_hostname(card->host));
 			goto free_card;
-		}
 	} else {
 		/* Select the desired bus width optionally */
 		err = mmc_select_bus_width(card);
