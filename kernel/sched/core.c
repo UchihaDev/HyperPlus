@@ -3146,6 +3146,9 @@ void scheduler_tick(void)
 	trigger_load_balance(rq);
 #endif
 	rq_last_tick_reset(rq);
+
+	if (curr->sched_class == &fair_sched_class)
+		check_for_migration(rq, curr);
 #ifdef CONFIG_HW_VIP_THREAD
 	trigger_vip_balance(rq);
 #endif
