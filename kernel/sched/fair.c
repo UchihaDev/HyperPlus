@@ -5801,11 +5801,6 @@ energy_diff(struct energy_env *eenv)
 			eenv->cap.delta,
 			eenv->p);
 
-	trace_sched_energy_diff(eenv->p,
-			eenv->src_cpu, eenv->dst_cpu, eenv->util_delta,
-			eenv->nrg.before, eenv->nrg.after, eenv->nrg.diff,
-			eenv->cap.before, eenv->cap.after, eenv->cap.delta,
-			eenv->nrg.delta, eenv->payoff, boost);
 	/*
 	 * When SchedTune is enabled, the energy_diff() function will return
 	 * the computed energy payoff value. Since the energy_diff() return
