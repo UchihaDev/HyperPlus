@@ -1782,6 +1782,8 @@ struct task_struct {
 #ifdef CONFIG_CPU_FREQ_POWER_STAT
 	unsigned long long cpu_power;
 #endif
+	atomic64_t *time_in_state;
+	unsigned int max_state;
 	struct prev_cputime prev_cputime;
 #ifdef CONFIG_VIRT_CPU_ACCOUNTING_GEN
 	seqlock_t vtime_seqlock;

@@ -31,6 +31,7 @@
 #include <linux/workqueue.h>
 #include <linux/delay.h>
 #include <huawei_platform/log/log_usertype/log-usertype.h>
+#include <linux/cpufreq.h>
 
 #define UID_HASH_BITS	10
 DECLARE_HASHTABLE(hash_table, UID_HASH_BITS);
@@ -220,6 +221,14 @@ static ssize_t uid_remove_write(struct file *file,
 		kstrtol(end_uid, 10, &uid_end) != 0) {
 		return -EINVAL;
 	}
+
+	/* TODO need to unify uid_sys_stats interface with uid_time_in_state.
+	 * Here we are reusing remove_uid_range to reduce the number of
+	 * sys calls made by userspace clients, remove_uid_range removes uids
+	 * from both here as well as from cpufreq uid_time_in_state
+	 */
+	cpufreq_task_stats_remove_uids(uid_start, uid_end);
+
 	rt_mutex_lock(&uid_lock);
 
 	for (; (uid_start + 1 > uid_start) && (uid_start <= uid_end); uid_start++) {
