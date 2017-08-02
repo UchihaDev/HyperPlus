@@ -1147,6 +1147,9 @@ struct eas_stats {
 	u64 fbt_no_cpu;
 	u64 fbt_no_sd;
 	u64 fbt_pref_idle;
+	u64 fbt_pref_idle_lum;
+	u64 fbt_best_active;
+	u64 fbt_best_idle;
 	u64 fbt_count;
 
 	/* cas */
@@ -1407,6 +1410,9 @@ struct sched_statistics {
 	u64			nr_wakeups_fbt_no_cpu;
 	u64			nr_wakeups_fbt_no_sd;
 	u64			nr_wakeups_fbt_pref_idle;
+	u64			nr_wakeups_fbt_pref_idle_lum;
+	u64			nr_wakeups_fbt_best_active;
+	u64			nr_wakeups_fbt_best_idle;
 	u64			nr_wakeups_fbt_count;
 
 	/* cas */
