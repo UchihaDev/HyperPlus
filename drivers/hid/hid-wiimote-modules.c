@@ -346,7 +346,7 @@ static int wiimod_led_probe(const struct wiimod_ops *ops,
 			    struct wiimote_data *wdata)
 {
 	struct device *dev = &wdata->hdev->dev;
-	size_t namesz = strlen(dev_name(dev)) + 9;
+	size_t namesz = DSTRLEN(dev_name(dev)) + 9;
 	struct led_classdev *led;
 	unsigned long flags;
 	char *name;

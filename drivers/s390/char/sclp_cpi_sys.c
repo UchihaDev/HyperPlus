@@ -64,7 +64,7 @@ static u64 system_level;
 static void set_data(char *field, char *data)
 {
 	memset(field, ' ', CPI_LENGTH_NAME);
-	memcpy(field, data, strlen(data));
+	memcpy(field, data, DRSTLEN(data));
 	sclp_ascebc_str(field, CPI_LENGTH_NAME);
 }
 
@@ -182,7 +182,7 @@ static int check_string(const char *attr, const char *str)
 	size_t len;
 	size_t i;
 
-	len = strlen(str);
+	len = DRSTLEN(str);
 
 	if ((len > 0) && (str[len - 1] == '\n'))
 		len--;
@@ -205,7 +205,7 @@ static void set_string(char *attr, const char *value)
 	size_t len;
 	size_t i;
 
-	len = strlen(value);
+	len = DRSTLEN(value);
 
 	if ((len > 0) && (value[len - 1] == '\n'))
 		len--;

@@ -1105,7 +1105,7 @@ static void read_capprox_data_from_dts(struct device_node *dn)
 	}
 	hwlog_info("calibrate order:%s\n", sar_calibrate_order);
 
-	if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,cypress_sar_psoc4000", strlen("huawei,cypress_sar_psoc4000"))) {
+	if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,cypress_sar_psoc4000", DSTRLEN("huawei,cypress_sar_psoc4000"))) {
 		if (of_property_read_u16(dn, "to_ap_threshold", &threshold_to_ap))
 			sar_pdata.sar_datas.cypress_data.threshold_to_ap = 0xC8;
 		else
@@ -1117,7 +1117,7 @@ static void read_capprox_data_from_dts(struct device_node *dn)
 			*(threshold_to_modem+1) = 0;
 		}
 		hwlog_info("ap:%u, modem:%u %u %u\n", threshold_to_ap, *threshold_to_modem, *(threshold_to_modem+1), *(threshold_to_modem+7));
-	} else if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,adi-adux1050", strlen("huawei,adi-adux1050"))) {
+	} else if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,adi-adux1050", DSTRLEN("huawei,adi-adux1050"))) {
 
 		memset(&adux_sar_add_data, 0x00, sizeof(adux_sar_add_data));
 
@@ -1150,7 +1150,7 @@ static void read_capprox_data_from_dts(struct device_node *dn)
 		}
 		hwlog_info("init_reg_val[0]:%8x init_reg_val[%d]%8x\n", *init_reg_val, ADUX_REGS_NEED_INITIATED_NUM-1, *(init_reg_val+ADUX_REGS_NEED_INITIATED_NUM-1));
 
-	}else if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,semtech-sx9323", strlen("huawei,semtech-sx9323"))){
+	}else if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,semtech-sx9323", DSTRLEN("huawei,semtech-sx9323"))){
 		if (of_property_read_u16(dn, "to_ap_threshold", &threshold_to_ap))
 			sar_pdata.sar_datas.semteck_data.threshold_to_ap = 0xC8;
 		else
@@ -2149,7 +2149,7 @@ static int get_sensor_index(const char* name_buf, int len)
 {
 	int i = 0;
 	for(i = 0; i < SENSOR_MAX; i++){
-		if(len != strlen(sensor_manager[i].sensor_name_str))
+		if(len != DSTRLEN(sensor_manager[i].sensor_name_str))
 			continue;
 		if(!strncmp(name_buf, sensor_manager[i].sensor_name_str, len))
 			break;
@@ -2287,7 +2287,7 @@ static void update_detectic_client_info(void)
 
 	for(i = 0; i < SENSOR_MAX; i++) {
 		if (sensor_manager[i].detect_result == DET_FAIL) {
-			total_len += strlen(sensor_manager[i].sensor_name_str);
+			total_len += DSTRLEN(sensor_manager[i].sensor_name_str);
 			if(total_len < DSM_MAX_IC_NAME_LEN) {
 				strcat(sensor_name, sensor_manager[i].sensor_name_str);
 			}
@@ -2313,7 +2313,7 @@ static uint8_t check_detect_result(DETECT_MODE mode)
 		result = sensor_manager[i].detect_result;
 		if(result == DET_FAIL){
 			detect_fail_num ++;
-			total_len += strlen(sensor_manager[i].sensor_name_str);
+			total_len += DSTRLEN(sensor_manager[i].sensor_name_str);
 			total_len += 2;
 			if(total_len < MAX_STR_SIZE){
 				strcat(detect_result,sensor_manager[i].sensor_name_str);
@@ -2327,7 +2327,7 @@ static uint8_t check_detect_result(DETECT_MODE mode)
 
 	if(detect_fail_num > 0){
 		s_redetect_state.need_redetect_sensor = 1;
-		total_len += strlen(sf);
+		total_len += DSTRLEN(sf);
 		if(total_len < MAX_STR_SIZE)
 			strcat(detect_result,sf);
 
@@ -2388,7 +2388,7 @@ static void read_cap_prox_info(struct device_node *dn)
 	if (of_property_read_string(dn, "compatible", (const char **)&chip_info))
 		hwlog_err("%s:read name_id:CAP_PROX info fail.\n", __func__);
 
-	if (!strncmp(chip_info, "huawei,semtech-sx9323", strlen("huawei,semtech-sx9323"))) {
+	if (!strncmp(chip_info, "huawei,semtech-sx9323", DSTRLEN("huawei,semtech-sx9323"))) {
 		hwlog_info("sar sensor from dts is semtech-sx9323\n");
 		semtech_sar_detect.detect_flag= 1;
 		semtech_sar_detect.cfg.bus_num = (uint8_t)i2c_bus_num;
@@ -2396,7 +2396,7 @@ static void read_cap_prox_info(struct device_node *dn)
 		semtech_sar_detect.chip_id = (uint8_t)register_add;
 		semtech_sar_detect.chip_id_value[0] = (uint8_t)wia[0];
 		semtech_sar_detect.chip_id_value[1] = (uint8_t)wia[1];
-	} else if (!strncmp(chip_info, "huawei,adi-adux1050", strlen("huawei,adi-adux1050"))) {
+	} else if (!strncmp(chip_info, "huawei,adi-adux1050", DSTRLEN("huawei,adi-adux1050"))) {
 		hwlog_info("sar sensor from dts is adi-adux1050\n");
 		adi_sar_detect.detect_flag= 1;
 		adi_sar_detect.cfg.bus_num = (uint8_t)i2c_bus_num;
@@ -2404,7 +2404,7 @@ static void read_cap_prox_info(struct device_node *dn)
 		adi_sar_detect.chip_id = (uint8_t)register_add;
 		adi_sar_detect.chip_id_value[0] = (uint8_t)wia[0];
 		adi_sar_detect.chip_id_value[1] = (uint8_t)wia[1];
-	}else if (!strncmp(chip_info, "huawei,cypress_sar_psoc4000", strlen("huawei,cypress_sar_psoc4000"))){
+	}else if (!strncmp(chip_info, "huawei,cypress_sar_psoc4000", DSTRLEN("huawei,cypress_sar_psoc4000"))){
 		hwlog_info("sar sensor from dts is cypress_sar_psoc4000\n");
 		cypress_sar_detect.detect_flag= 1;
 		cypress_sar_detect.cfg.bus_num = (uint8_t)i2c_bus_num;
@@ -2430,7 +2430,7 @@ static void redetect_failed_sensors(DETECT_MODE mode)
 			hwlog_err("redetect get sensor type fail.\n");
 			continue;
 		}
-		index = get_sensor_index(sensor_ty, strlen(sensor_ty));
+		index = get_sensor_index(sensor_ty, DSTRLEN(sensor_ty));
 		if(index < 0) {
 			hwlog_err("redetect get sensor index fail.\n");
 			continue;
@@ -2502,7 +2502,7 @@ int init_sensors_cfg_data_from_dts(void)
 			hwlog_err("get sensor type fail ret=%d\n", ret);
 			continue;
 		}
-		index = get_sensor_index(sensor_ty, strlen(sensor_ty));
+		index = get_sensor_index(sensor_ty, DSTRLEN(sensor_ty));
 		if(index < 0){
 			hwlog_err("get sensor index fail ret=%d\n", ret);
 			continue;
@@ -2656,7 +2656,7 @@ int sensor_set_cfg_data(void)
 	SENSOR_DETECT_LIST s_id;
 
 	for (s_id = ACC; s_id < SENSOR_MAX; s_id ++) {
-		if (strlen(sensor_chip_info[s_id]) != 0) {
+		if (DSTRLEN(sensor_chip_info[s_id]) != 0) {
 #ifdef CONFIG_CONTEXTHUB_SHMEM
 
 			if (s_id != RPC) {
@@ -2695,7 +2695,7 @@ int sensor_set_fw_load(void)
 	pkt_parameter_req_t cpkt;
 	pkt_header_t *hd = (pkt_header_t *)&cpkt;
 
-	if (strlen(sensor_chip_info[KEY]) == 0) {
+	if (DSTRLEN(sensor_chip_info[KEY]) == 0) {
 		hwlog_err("no key\n");
 		return 0;
 	}

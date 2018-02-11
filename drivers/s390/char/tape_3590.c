@@ -120,7 +120,7 @@ static void ext_to_int_kekl(struct tape390_kekl *in,
 	if (in->type_on_tape == TAPE390_KEKL_TYPE_HASH)
 		out->flags |= 0x80;
 	strncpy(out->label, in->label, 64);
-	for (i = strlen(in->label); i < sizeof(out->label); i++)
+	for (i = DRSTLEN(in->label); i < sizeof(out->label); i++)
 		out->label[i] = ' ';
 	ASCEBC(out->label, sizeof(out->label));
 }

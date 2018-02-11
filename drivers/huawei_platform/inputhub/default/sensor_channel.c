@@ -313,7 +313,7 @@ static void get_airpress_calibrate_data(void)
 {
      int ret = 0;
     static int airpress_first_start_flag = 0;
-    if(0 == strlen(sensor_chip_info[AIRPRESS])){
+    if(0 == DSTRLEN(sensor_chip_info[AIRPRESS])){
         return;
     }
     if (0 == airpress_first_start_flag)
@@ -365,7 +365,7 @@ static void get_gyro_calibrate_data(void)
     int ret = 0;
     struct device_node *dn = NULL;
     char *model = NULL;
-    if(0 == strlen(sensor_chip_info[GYRO])){
+    if(0 == DSTRLEN(sensor_chip_info[GYRO])){
         return;
     }
     if (0 == gyro_first_start_flag)
@@ -382,7 +382,7 @@ static void get_gyro_calibrate_data(void)
                 hwlog_err("get phone model fail ret=%d\n", ret);
         }
         hwlog_info("gyro read model info %s\n", model);
-        if (!strncmp(model, "kirin970", strlen("kirin970"))) {
+        if (!strncmp(model, "kirin970", DSTRLEN("kirin970"))) {
             ret=send_gyro_temperature_offset_to_mcu();
             if(ret)
 		hwlog_err( "get_gyro_temperature calibrate_data read from nv fail, ret=%d", ret);
@@ -396,7 +396,7 @@ static void get_handpress_calibrate_data(void)
 {
 	int ret = 0;
 
-	if(0 == strlen(sensor_chip_info[HANDPRESS])) {
+	if(0 == DSTRLEN(sensor_chip_info[HANDPRESS])) {
 		return;
 	}
 	if (0 == handpress_first_start_flag) {

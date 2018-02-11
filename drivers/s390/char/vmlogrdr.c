@@ -651,7 +651,7 @@ static ssize_t vmlogrdr_recording_status_show(struct device_driver *driver,
 	int len;
 
 	cpcmd(cp_command, buf, 4096, NULL);
-	len = strlen(buf);
+	len = DRSTLEN(buf);
 	return len;
 }
 static DRIVER_ATTR(recording_status, 0444, vmlogrdr_recording_status_show,

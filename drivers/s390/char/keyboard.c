@@ -420,7 +420,7 @@ do_kdgkb_ioctl(struct kbd_data *kbd, struct kbsentry __user *u_kbs,
 	case KDGKBSENT:
 		p = kbd->func_table[kb_func];
 		if (p) {
-			len = strlen(p);
+			len = DRSTLEN(p);
 			if (len >= sizeof(u_kbs->kb_string))
 				len = sizeof(u_kbs->kb_string) - 1;
 			if (copy_to_user(u_kbs->kb_string, p, len))

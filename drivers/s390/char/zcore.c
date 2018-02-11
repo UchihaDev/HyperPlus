@@ -486,7 +486,7 @@ static ssize_t zcore_hsa_read(struct file *filp, char __user *buf,
 		snprintf(str, sizeof(str), "%lx\n", sclp.hsa_size);
 	else
 		snprintf(str, sizeof(str), "0\n");
-	return simple_read_from_buffer(buf, count, ppos, str, strlen(str));
+	return simple_read_from_buffer(buf, count, ppos, str, DRSTLEN(str));
 }
 
 static ssize_t zcore_hsa_write(struct file *filp, const char __user *buf,

@@ -176,7 +176,7 @@ SHOW_SELFTEST_RESULT(gps_4774_i2c);
 static ssize_t show_handpress_selfTest_result(struct device *dev,	struct device_attribute *attr, char *buf)
 {
 	int result = 0;
-	if (strncmp(sensor_status.handpress_selfTest_result, "1", strlen("1")))
+	if (strncmp(sensor_status.handpress_selfTest_result, "1", DSTRLEN("1")))
 		result = 0;
 	else
 		result = 1;
@@ -365,7 +365,7 @@ static int enq_msg_data_in_sensorhub(struct sensor_eng_cal_test sensor_test)
 				return ret;
 			}
 			snprintf(msg->events[pEvents].value,MAX_VAL_LEN,"%d",*(sensor_test.cal_value+pCalValue));
-			memcpy(msg->events[pEvents].test_name,sensor_test.test_name[pCalValue],(strlen(sensor_test.test_name[pCalValue])+1));
+			memcpy(msg->events[pEvents].test_name,sensor_test.test_name[pCalValue],(DSTRLEN(sensor_test.test_name[pCalValue])+1));
 			msg->events[pEvents].item_id = sensor_test.first_item+pCalValue;
 		}
 		msg->num_events = pEvents;
@@ -412,7 +412,7 @@ static void cap_prox_enq_notify_work(const int item_id, uint16_t value,const cha
 	cap_prox_event.item_id = item_id;
 	memcpy(cap_prox_event.device_name,CAP_PROX_TEST_CAL,sizeof(CAP_PROX_TEST_CAL));
 	memcpy(cap_prox_event.result,CAP_PROX_RESULT,sizeof(CAP_PROX_RESULT));
-	memcpy(cap_prox_event.test_name,test_name,(strlen(test_name)+1));
+	memcpy(cap_prox_event.test_name,test_name,(DSTRLEN(test_name)+1));
 	snprintf(cap_prox_event.value,MAX_VAL_LEN,"%d",value);
 
 	ret = enq_msg_data_in_sensorhub_single(cap_prox_event);
@@ -425,7 +425,7 @@ static void cap_prox_enq_notify_work(const int item_id, uint16_t value,const cha
 
 static void cap_prox_do_enq_work(int calibrate_index)
 {
-	if(!strncmp(sensor_chip_info[CAP_PROX], "huawei,semtech-sx9323", strlen("huawei,semtech-sx9323"))){
+	if(!strncmp(sensor_chip_info[CAP_PROX], "huawei,semtech-sx9323", DSTRLEN("huawei,semtech-sx9323"))){
 		switch(calibrate_index){
 			case 1:
 				cap_prox_enq_notify_work(SAR_SENSOR_DIFF_MSG,sar_calibrate_datas.semtech_cali_data.diff,CAP_PROX_DIFF);
@@ -573,7 +573,7 @@ static void save_to_file(const char *file_path, const char *content)
 		set_fs(oldfs);
 		return;
 	}
-	vfs_write(fp, content, strlen(content), &(fp->f_pos));
+	vfs_write(fp, content, DSTRLEN(content), &(fp->f_pos));
 	filp_close(fp, NULL);
 	set_fs(oldfs);
 	return;
@@ -1069,7 +1069,7 @@ static int rgb_cal_result_write_file(char *filename, char *param)
 		return -1;
 	}
 
-	vfs_write(fop, (char *)param, strlen(param), &fop->f_pos);
+	vfs_write(fop, (char *)param, DSTRLEN(param), &fop->f_pos);
 	filp_close(fop, NULL);
 	set_fs(old_fs);
 
@@ -1287,7 +1287,7 @@ static ssize_t attr_cap_prox_calibrate_write(struct device *dev,
 	if (strict_strtoul(buf, 10, &val))
 		return -EINVAL;
 
-	if (strlen(sensor_chip_info[CAP_PROX]) == 0) {
+	if (DSTRLEN(sensor_chip_info[CAP_PROX]) == 0) {
 		hwlog_err("no sar sensor\n");
 		return -EINVAL;
 	}
@@ -1302,7 +1302,7 @@ static ssize_t attr_cap_prox_calibrate_write(struct device *dev,
 		if (return_cap_prox_calibration == COMMU_FAIL) {
 			return count;
 		} else if (pkg_mcu.errno == 0) {
-			if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,cypress_sar_psoc4000", strlen("huawei,cypress_sar_psoc4000"))) {
+			if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,cypress_sar_psoc4000", DSTRLEN("huawei,cypress_sar_psoc4000"))) {
 				uint16_t cypress_data[2] = {0};
 				memcpy(cypress_data, pkg_mcu.data, sizeof(cypress_data));
 				switch(calibrate_index) {
@@ -1328,7 +1328,7 @@ static ssize_t attr_cap_prox_calibrate_write(struct device *dev,
 				memset(cap_prox_calibrate_data, 0, cap_prox_calibrate_len);
 				memcpy(cap_prox_calibrate_data, &sar_calibrate_datas, cap_prox_calibrate_len);
 		    }
-                  else if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,semtech-sx9323", strlen("huawei,semtech-sx9323")))
+                  else if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,semtech-sx9323", DSTRLEN("huawei,semtech-sx9323")))
                   {
 			uint16_t semtech = 0;
 			memcpy(&semtech, pkg_mcu.data, sizeof(semtech));
@@ -2228,7 +2228,7 @@ static DEVICE_ATTR(dump_sensor_status, 0664, show_dump_sensor_status, NULL);
 
 static ssize_t show_airpress_set_calidata(struct device *dev, struct device_attribute *attr, char *buf)
 {
-	if (strlen(sensor_chip_info[AIRPRESS]) != 0)
+	if (DSTRLEN(sensor_chip_info[AIRPRESS]) != 0)
 		return snprintf(buf, MAX_STR_SIZE, "%d\n", airpress_data.offset);
 	else
 		return -1;
@@ -2247,7 +2247,7 @@ static ssize_t store_airpress_set_calidata(struct device *dev, struct device_att
 	char content[CLI_CONTENT_LEN_MAX] = { 0 };
 	char date_str[CLI_TIME_STR_LEN] = { 0 };
 
-	if (strlen(sensor_chip_info[AIRPRESS]) == 0) {
+	if (DSTRLEN(sensor_chip_info[AIRPRESS]) == 0) {
 		hwlog_err("AIRPRESS not exits !!\n");
 		return -1;
 	}
@@ -2364,7 +2364,7 @@ static ssize_t attr_handpress_calibrate_write(struct device *dev, struct device_
 	if (strict_strtoul(buf, 10, &val))
 		return -EINVAL;
 
-	if (strlen(sensor_chip_info[HANDPRESS]) == 0) {
+	if (DSTRLEN(sensor_chip_info[HANDPRESS]) == 0) {
 		hwlog_err("no handpress\n");
 		return count;
 	}
@@ -2666,7 +2666,7 @@ static ssize_t store_key_debug(struct device *dev, struct device_attribute *attr
 	int offset_value;
 	interval_param_t param;
 
-	if (strlen(sensor_chip_info[KEY]) == 0) {
+	if (DSTRLEN(sensor_chip_info[KEY]) == 0) {
 		hwlog_err("no key\n");
 		return size;
 	}
@@ -2707,12 +2707,12 @@ static DEVICE_ATTR(key_debug,0664, show_key_debug, store_key_debug);
 
 static ssize_t show_sar_data(struct device *dev, struct device_attribute *attr, char *buf)
 {
-	if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,cypress_sar_psoc4000", strlen("huawei,cypress_sar_psoc4000"))) {
+	if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,cypress_sar_psoc4000", DSTRLEN("huawei,cypress_sar_psoc4000"))) {
 		return snprintf(buf, MAX_STR_SIZE, "idac:%d rawdata:%d near:%d far:%d\n",
 			sar_calibrate_datas.cypres_cali_data.sar_idac, sar_calibrate_datas.cypres_cali_data.raw_data,
 			sar_calibrate_datas.cypres_cali_data.near_signaldata, sar_calibrate_datas.cypres_cali_data.far_signaldata);
 	}
-	if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,semtech-sx9323", strlen("huawei,semtech-sx9323"))) {
+	if (!strncmp(sensor_chip_info[CAP_PROX], "huawei,semtech-sx9323", DSTRLEN("huawei,semtech-sx9323"))) {
 		return snprintf(buf, MAX_STR_SIZE, "offset:%d diff:%d \n",
 			sar_calibrate_datas.semtech_cali_data.offset, sar_calibrate_datas.semtech_cali_data.diff);
 	}
