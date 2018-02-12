@@ -1,11 +1,16 @@
-#
-# Makefile for Linux FAT12/FAT16/FAT32(VFAT)/FAT64(ExFAT) filesystem driver.
-#
+# exFAT filesystem driver rules
 
-# call from kernel build system
+exfat := exfat
 
-obj-$(CONFIG_EXFAT_FS) += exfat.o
+ifeq ($(CONFIG_EXFAT_COMPAT_TUXERA),y)
+exfat := texfat
+endif
 
-exfat-y := exfat_core.o exfat_super.o exfat_api.o exfat_blkdev.o exfat_cache.o \
-		   exfat_data.o exfat_bitmap.o exfat_nls.o exfat_oal.o exfat_upcase.o
+obj-$(CONFIG_EXFAT_FS) := $(exfat).o
 
+$(exfat)-y := exfat_super.o exfat_misc.o exfat_api.o \
+	   exfat_blkdev.o exfat_cache.o \
+	   exfat_data.o exfat_global.o exfat_nls.o \
+	   exfat_oal.o exfat_upcase.o exfat_xattr.o
+
+ccflags-y += -DEXFAT_VERSION=\"1.2.24\"
