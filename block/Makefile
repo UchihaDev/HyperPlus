@@ -14,7 +14,6 @@ obj-$(CONFIG_HISI_BLK_MQ) += hisi-blk-mq-tag.o
 obj-$(CONFIG_HISI_BLK_MQ_DUMP) += hisi-blk-mq-dump.o
 obj-$(CONFIG_HISI_IO_LATENCY_TRACE) += hisi-blk-latency.o
 obj-$(CONFIG_HISI_MANUAL_BKOPS)     += hisi-bkops-core.o hisi-bkops-sysfs.o
-obj-$(CONFIG_IOSCHED_MAPLE)     += maple-iosched.o
 obj-$(CONFIG_HISI_MQ_DISPATCH_DECISION)	+= hisi-blk-mq-dispatch-strategy.o
 obj-$(CONFIG_HISI_BLK_FLUSH_REDUCE) += hisi-blk-flush.o
 obj-$(CONFIG_BOUNCE)	+= bounce.o

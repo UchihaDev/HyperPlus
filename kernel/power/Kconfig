@@ -38,11 +38,6 @@ config WAKELOCK
 
 	  Say Y if you are running an android userspace.
 
-config	BOEFFLA_WL_BLOCKER
-	bool "Boeffla generic wakelock blocker driver"
-	depends on PM
-	default N
-
 config HIBERNATE_CALLBACKS
 	bool
 
