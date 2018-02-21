@@ -48,6 +48,7 @@ return
 */
 static int rdr_check_exceptionboot(struct bootcheck *info)
 {
+#if 0
 	u32 reboot_type;/*lint !e578 */
 	struct rdr_base_info_s *base;
 	struct rdr_struct_s *tmpbb;
@@ -108,10 +109,13 @@ static int rdr_check_exceptionboot(struct bootcheck *info)
 	}
 	rdr_check_log_save(reboot_type);
 	return RDR_DONTNEED_SAVE_MEM;
+#endif
+	return 0;
 }
 
 int rdr_bootcheck_thread_body(void *arg)
 {
+#if 0
 	int cur_reboot_times;
 	int ret;
 	u64 result;
@@ -207,5 +211,6 @@ int rdr_bootcheck_thread_body(void *arg)
 end:
 	rdr_clear_tmppbb();
 	BB_PRINT_END();
+#endif
 	return 0;
 }
