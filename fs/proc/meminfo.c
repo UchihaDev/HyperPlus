@@ -65,7 +65,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
 	 * Free memory cannot be taken below the low watermark, before the
 	 * system starts swapping.
 	 */
-	available = i.freeram - wmark_low;
+	available = i.freeram - totalreserve_pages;
 
 	/*
 	 * Not all the page cache can be freed, otherwise the system will
