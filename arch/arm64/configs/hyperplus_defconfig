@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 4.4.23 Kernel Configuration
+# Linux/arm64 4.4.26 Kernel Configuration
 #
 
 # HyperPlus Kernel
@@ -51,7 +51,7 @@ CONFIG_BUILDTIME_EXTABLE_SORT=y
 CONFIG_INIT_ENV_ARG_LIMIT=32
 CONFIG_CROSS_COMPILE=""
 # CONFIG_COMPILE_TEST is not set
-CONFIG_LOCALVERSION="-Skittles"
+CONFIG_LOCALVERSION="-SourSkittles"
 # CONFIG_LOCALVERSION_AUTO is not set
 CONFIG_DEFAULT_HOSTNAME="(none)"
 CONFIG_SWAP=y
