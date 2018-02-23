@@ -25,15 +25,6 @@ config CPU_FREQ_BOOST_SW
 	bool
 	depends on THERMAL
 
-config CPU_FREQ_DEFAULT_GOV_ZZMOOVE
-	  bool "zzmoove"
-	  select CPU_FREQ_GOV_ZZMOOVE
-	  select CPU_FREQ_GOV_PERFORMANCE
-	  help
-	  Use the CPUFreq governor 'zzmoove' as default, using predefined
-	  frequency lookup tables and optimized scaling triggers instead of
-	  % frequency steps to get smooth up/downscaling dependant on CPU load.
-
 config CPU_FREQ_DEFAULT_GOV_BLU_ACTIVE
 	bool "blu_active"
 	select CPU_FREQ_GOV_BLU_ACTIVE
@@ -216,15 +207,6 @@ config CPU_FREQ_GOV_INTERACTIVE
 
 	  For details, take a look at linux/Documentation/cpu-freq.
 
-	  If in doubt, say N.
-
-config CPU_FREQ_GOV_ZZMOOVE
-	tristate "'zzmoove' cpufreq policy governor"
-	depends on CPU_FREQ
-	help
-	  'zzmoove' - based on cpufreq_conservative, using predefined
-	  frequency lookup tables and optimized scaling triggers instead of
-	  % frequency steps to get smooth up/downscaling dependant on CPU load.
 	  If in doubt, say N.
 
 config CPU_FREQ_GOV_BLU_ACTIVE
