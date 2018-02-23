@@ -151,7 +151,8 @@ static u32 __extract_hwseed(void)
 {
 	unsigned int val = 0;
 
-	(void)(arch_get_random_int(&val));
+	(void)(arch_get_random_seed_int(&val) ||
+	       arch_get_random_int(&val));
 
 	return val;
 }
@@ -245,7 +246,7 @@ void prandom_seed_full_state(struct rnd_state __percpu *pcpu_state)
 		struct rnd_state *state = per_cpu_ptr(pcpu_state, i);
 		u32 seeds[4];
 
-		erandom_get_random_bytes((char *)&seeds, sizeof(seeds));
+		get_random_bytes(&seeds, sizeof(seeds));
 		state->s1 = __seed(seeds[0],   2U);
 		state->s2 = __seed(seeds[1],   8U);
 		state->s3 = __seed(seeds[2],  16U);
