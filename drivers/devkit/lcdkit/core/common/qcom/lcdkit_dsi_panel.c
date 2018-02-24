@@ -2,6 +2,7 @@
 #include "mdss_fb.h"
 #include "lcdkit_panel.h"
 #include "mdss_dsi.h"
+#include <linux/display_state.h>
 #include "mdss_dsi_cmd.h"
 #include "lcdkit_parse.h"
 #include "lcdkit_dbg.h"
@@ -10,6 +11,12 @@
 #define BLK_PAYLOAD_NUM_OFFSET	6
 #define BLK_PAYLOAD_NUM		0x03
 #define BLK_PAYLOAD_YANGON_NUM		0x4
+
+bool display_on = true;
+bool is_display_on()
+{
+	return display_on;
+}
 
 extern int is_device_reboot;
 const char *default_panel_name;
@@ -303,6 +310,8 @@ int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 		return -EINVAL;
 	}
 
+	display_on = true;
+
 	pinfo = &pdata->panel_info;
 	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata, panel_data);
 
@@ -456,6 +465,8 @@ int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
         //move the log print
 		mdss_dba_utils_hdcp_enable(pinfo->dba_data, false);
 	}
+
+	display_on = false;
 
     lcdkit_info.panel_infos.scan_mode = FORWORD_SCAN;
     lcdkit_info.panel_infos.inversion_mode = COLUMN_INVERSION;
