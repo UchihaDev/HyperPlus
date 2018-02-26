@@ -231,8 +231,6 @@ source "kernel/livepatch/Kconfig"
 
 source "arch/arm64/Kconfig.platforms"
 
-source arch/arm64/hotplug/Kconfig
-
 menu "Bus support"
 
 config PCI
