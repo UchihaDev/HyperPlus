@@ -903,6 +903,11 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
 			else
 				rss[MM_FILEPAGES]++;
 
+		/* Should return NULL in vm_normal_page() */
+		uksm_bugon_zeropage(pte);
+	} else {
+		uksm_map_zero_page(pte);
+	}
 			if (is_write_migration_entry(entry) &&
 					is_cow_mapping(vm_flags)) {
 				/*
@@ -944,10 +949,6 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
 			rss[MM_ANONPAGES]++;
 		else
 			rss[MM_FILEPAGES]++;
-		/* Should return NULL in vm_normal_page() */
-		uksm_bugon_zeropage(pte);
-	} else {
-		uksm_map_zero_page(pte);
 	}
 
 out_set_pte:
