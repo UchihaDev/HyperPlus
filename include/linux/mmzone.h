@@ -191,10 +191,6 @@ enum zone_stat_item {
 	NR_IONCACHE_PAGES,
 	NR_MALI_PAGES,
 	NR_SWAPCACHE,
-
-#ifdef CONFIG_UKSM
-	NR_UKSM_ZERO_PAGES,
-#endif
 	NR_VM_ZONE_STAT_ITEMS };
 
 /*
