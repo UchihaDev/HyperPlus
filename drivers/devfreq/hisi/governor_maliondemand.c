@@ -362,8 +362,8 @@ static int mali_ondemand_init(struct devfreq *devfreq)
 			err = -ENOMEM;
 			goto out;
 		}
-		data->vsync_upthreshold = DFMO_NO_VSYNC_UPTHRESHOLD;
-		data->vsync_downdifferential = DFMO_NO_VSYNC_DOWNDIFFERENCTIAL;
+		data->vsync_upthreshold = DFMO_VSYNC_UPTHRESHOLD;
+		data->vsync_downdifferential = DFMO_VSYNC_DOWNDIFFERENCTIAL;
 		data->no_vsync_upthreshold = DFMO_NO_VSYNC_UPTHRESHOLD;
 		data->no_vsync_downdifferential = DFMO_NO_VSYNC_DOWNDIFFERENCTIAL;
 		data->animation_boost = DFMO_ANIMATION_BOOST_DN;
