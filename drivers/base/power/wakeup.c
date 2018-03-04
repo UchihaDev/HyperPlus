@@ -6,6 +6,7 @@
  * This file is released under the GPLv2.
  */
 
+#include <linux/hw_power_monitor.h>
 #include <linux/device.h>
 #include <linux/slab.h>
 #include <linux/sched.h>
@@ -1114,11 +1115,6 @@ void pm_wakep_autosleep_enabled(bool set)
 				else
 					update_prevent_sleep_time(ws, now);
 			}
-#if 1//def CONFIG_HUAWEI_KERNEL  
-                        if (set) { // screen off  
-                                ws->screen_off_time = ktime_set(0, 0);  
-                        }  
-#endif
 		}
 		spin_unlock_irq(&ws->lock);
 	}
@@ -1142,18 +1138,12 @@ static int print_wakeup_source_stats(struct seq_file *m,
 	unsigned long active_count;
 	ktime_t active_time;
 	ktime_t prevent_sleep_time;
-#if 1//def CONFIG_HUAWEI_KERNEL  
-        ktime_t screen_off_time;  
-#endif  
 
 	spin_lock_irqsave(&ws->lock, flags);
 
 	total_time = ws->total_time;
 	max_time = ws->max_time;
 	prevent_sleep_time = ws->prevent_sleep_time;
-#if 1//def CONFIG_HUAWEI_KERNEL  
-        screen_off_time = ws->screen_off_time;  
-#endif  
 	active_count = ws->active_count;
 	if (ws->active) {
 		ktime_t now = ktime_get();
@@ -1163,18 +1153,9 @@ static int print_wakeup_source_stats(struct seq_file *m,
 		if (active_time.tv64 > max_time.tv64)
 			max_time = active_time;
 
-#if 1//def CONFIG_HUAWEI_KERNEL  
-                if (ws->autosleep_enabled) {  
-                        prevent_sleep_time = ktime_add(prevent_sleep_time,  
-                            ktime_sub(now, ws->start_prevent_time));  
-                        screen_off_time = ktime_add(screen_off_time,  
-                            ktime_sub(now, ws->start_prevent_time));  
-                } 
-#else  
 		if (ws->autosleep_enabled)
 			prevent_sleep_time = ktime_add(prevent_sleep_time,
 				ktime_sub(now, ws->start_prevent_time));
-#endif
 	} else {
 		active_time = ktime_set(0, 0);
 	}
