@@ -646,7 +646,7 @@ vti6_tnl_change(struct ip6_tnl *t, const struct __ip6_tnl_parm *p)
 	t->parms.i_key = p->i_key;
 	t->parms.o_key = p->o_key;
 	t->parms.proto = p->proto;
-	dst_cache_reset(&t->dst_cache);
+	ip6_tnl_dst_reset(t);
 	vti6_link_config(t);
 	return 0;
 }
