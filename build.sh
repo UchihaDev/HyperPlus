@@ -24,7 +24,7 @@ KERNEL_IMG=~/Desktop/out/arch/arm64/boot/Image
 DT_IMAGE=$OUT_DIR/arch/arm64/boot/dt.img
 DTBTOOL=~/Desktop/tools/tools/dtbToolCM
 
-# Delete this annoying files
+# Delete these annoying files
 rm -rf mm/.memory.c.swp
 rm -rf net/.Kconfig.swp
 rm -rf arch/x86/kernel/cpu/bugs_64.c
