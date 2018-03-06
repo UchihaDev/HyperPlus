@@ -6658,15 +6658,15 @@ static int cpu_util_wake(int cpu, struct task_struct *p)
 	return (util >= capacity) ? capacity : util;
 }
 
-static int start_cpu(bool boosted)
+static int start_cpu(bool prefer_idle)
 {
 	struct root_domain *rd = cpu_rq(smp_processor_id())->rd;
 
-	return boosted ? rd->max_cap_orig_cpu : rd->min_cap_orig_cpu;
+	return prefer_idle ? rd->max_cap_orig_cpu : rd->min_cap_orig_cpu;
 }
 
 static inline int find_best_target(struct task_struct *p, int *backup_cpu,
-				   bool boosted, bool prefer_idle)
+				   bool prefer_idle)
 {
 	unsigned long high_cpu_util = SCHED_CAPACITY_SCALE;
 	unsigned long task_util_boosted = boosted_task_util(p);
@@ -6691,8 +6691,8 @@ static inline int find_best_target(struct task_struct *p, int *backup_cpu,
 	schedstat_inc(p, se.statistics.nr_wakeups_fbt_attempts);
 	schedstat_inc(this_rq(), eas_stats.fbt_attempts);
 
-	/* Find start CPU based on boost value */
-	cpu = start_cpu(boosted);
+	/* Find start CPU based on prefer_idle flag*/
+	cpu = start_cpu(prefer_idle);
 	if (cpu < 0) {
 		schedstat_inc(p, se.statistics.nr_wakeups_fbt_no_cpu);
 		schedstat_inc(this_rq(), eas_stats.fbt_no_cpu);
@@ -7100,7 +7100,7 @@ static int select_energy_cpu_brute(struct task_struct *p, int prev_cpu, int sync
 	sync_entity_load_avg(&p->se);
 
 	/* Find a cpu with sufficient capacity */
-	next_cpu = find_best_target(p, &backup_cpu, boosted, prefer_idle);
+	next_cpu = find_best_target(p, &backup_cpu, prefer_idle);
 	if (next_cpu == -1) {
 		target_cpu = prev_cpu;
 		return target_cpu;
