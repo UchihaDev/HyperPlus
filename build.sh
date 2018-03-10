@@ -20,7 +20,7 @@ KERNEL_DIR=~/Desktop/Code_Opensource
 OUT_DIR=~/Desktop/out
 UPLOAD_DIR=~/Desktop/Files/flash_zip
 ANYKERNEL_DIR=$KERNEL_DIR/AnyKernel2
-KERNEL_IMG=~/Desktop/out/arch/arm64/boot/Image
+KERNEL_IMG=~/Desktop/out/arch/arm64/boot/Image.gz
 DT_IMAGE=$OUT_DIR/arch/arm64/boot/dt.img
 DTBTOOL=~/Desktop/tools/tools/dtbToolCM
 
@@ -122,6 +122,7 @@ fi
 
 # Clean Up
 function cleanup(){
+rm -rf $ANYKERNEL_DIR/Image.gz
 rm -rf $ANYKERNEL_DIR/Image
 rm -rf $ANYKERNEL_DIR/dt.img
 rm -rf $ANYKERNEL_DIR/modules/*.ko
