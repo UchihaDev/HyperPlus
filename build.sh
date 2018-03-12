@@ -57,7 +57,7 @@ $DTBTOOL -2 -o $DT_IMAGE -s 2048 -p $KERNEL_DIR/scripts/dtc/ $KERNEL_DIR/arch/ar
 
 # Making zip
 function make_zip() {
-cp $KERNEL_IMG $ANYKERNEL_DIR
+cp $KERNEL_IMG $ANYKERNEL_DIR/kernel-Image.gz
 cp $DT_IMAGE $ANYKERNEL_DIR
 mkdir -p $UPLOAD_DIR
 cd $ANYKERNEL_DIR
@@ -122,7 +122,7 @@ fi
 
 # Clean Up
 function cleanup(){
-rm -rf $ANYKERNEL_DIR/Image.gz
+rm -rf $ANYKERNEL_DIR/kernel-Image.gz
 rm -rf $ANYKERNEL_DIR/Image
 rm -rf $ANYKERNEL_DIR/dt.img
 rm -rf $ANYKERNEL_DIR/modules/*.ko
