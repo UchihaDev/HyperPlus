@@ -17,6 +17,20 @@ device.name2=
 # import patching functions/variables - see for reference
 . /tmp/anykernel/tools/ak2-core.sh;
 
+ui_print " ";
+ui_print " ";
+ui_print " __  __     __  __     ______   ______     ______     ";
+ui_print "/\ \_\ \   /\ \_\ \   /\  == \ /\  ___\   /\  == \    ";
+ui_print "\ \  __ \  \ \____ \  \ \  _-/ \ \  __\   \ \  __<    ";
+ui_print " \ \_\ \_\  \/\_____\  \ \_\    \ \_____\  \ \_\ \_\  ";
+ui_print "  \/_/\/_/   \/_____/   \/_/     \/_____/   \/_/ /_/  ";
+ui_print " ";
+ui_print " ______   __         __  __     ______                ";
+ui_print "/\  == \ /\ \       /\ \/\ \   /\  ___\               ";
+ui_print "\ \  _-/ \ \ \____  \ \ \_\ \  \ \___  \              ";
+ui_print " \ \_\    \ \_____\  \ \_____\  \/\_____\             ";
+ui_print "  \/_/     \/_____/   \/_____/   \/_____/             ";
+ui_print " ";
 
 # shell variables
 block=/dev/block/platform/ff3b0000.ufs/by-name/ramdisk;
