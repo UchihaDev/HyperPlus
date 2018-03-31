@@ -1160,7 +1160,7 @@ struct sched_domain_shared {
 #ifdef CONFIG_HISI_EAS_SCHED
         bool            overloaded;
 #endif
-
+};
 struct sched_domain {
 	/* These fields must be setup */
 	struct sched_domain *parent;	/* top domain must be null terminated */
