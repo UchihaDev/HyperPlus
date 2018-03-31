@@ -738,10 +738,6 @@ done:
 
 unsigned long __weak arch_get_cpu_efficiency(int cpu)
 {
-#ifdef CONFIG_HISI_EAS_SCHED
-	if (!hisi_test_fast_cpu(cpu))
-		return SCHED_LOAD_SCALE >> 1;
-#endif
 	return SCHED_LOAD_SCALE;
 }
 
