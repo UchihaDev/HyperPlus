@@ -6135,6 +6135,10 @@ find_boost_cpu(struct cpumask *group_cpus, struct task_struct *p, int this_cpu)
 	int shallowest_idle_cpu = -1;
 	int i;
 
+	/* Check if we have any choice: */
+	if (group->group_weight == 1)
+		return cpumask_first(sched_group_cpus(group));
+
 	/* Traverse only the allowed CPUs */
 	for_each_cpu_and(i, group_cpus, tsk_cpus_allowed(p)) {
 		if (!cpumask_test_cpu(i, cpu_online_mask))
