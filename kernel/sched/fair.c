@@ -6095,7 +6095,7 @@ find_idlest_group(struct sched_domain *sd, struct task_struct *p,
 {
 	struct sched_group *idlest = NULL, *group = sd->groups;
 	struct sched_group *fit_group = NULL, *spare_group = NULL;
-	unsigned long min_load = ULONG_MAX, this_load = 0;
+	unsigned long min_load = ULONG_MAX, this_load = ULONG_MAX;
 	unsigned long fit_capacity = ULONG_MAX;
 	unsigned long max_spare_capacity = capacity_margin - SCHED_LOAD_SCALE;
 	int load_idx = sd->forkexec_idx;
