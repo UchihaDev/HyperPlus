@@ -45,8 +45,10 @@ ui_print "Adding flavor to the kernel...";
 
 dump_boot;
 
-# add spectrum support
-insert_line init.rc "import /init.spectrum.rc" "before" "import /init.rphone.rc" "import /init.spectrum.rc";
+# make schedutil default governor
+insert_line init.rc '# set governor' 'before' '# scheduler tunables' '# set governor'
+insert_line init.rc 'write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"' 'after' '# set governor' 'write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"'
+insert_line init.rc 'write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor "schedutil"' 'after' 'write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"' 'write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor "schedutil"'
 
 write_boot;
 
