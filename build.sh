@@ -10,7 +10,7 @@ nocol='\033[0m'
 
 # Kernel details
 KERNEL_NAME="HyperPlus"
-VERSION="JamMonster"
+VERSION="Gatorade_V2"
 DATE=$(date +"%d-%m-%Y-%I-%M")
 DEVICE="VKY"
 FINAL_ZIP=$KERNEL_NAME-$VERSION-$DATE-$DEVICE.zip
@@ -67,6 +67,19 @@ mv $ANYKERNEL_DIR/UPDATE-AnyKernel2.zip $UPLOAD_DIR/$FINAL_ZIP
 
 # Options
 function options() {
+  echo -e "$cyan                                                 "
+  echo -e " __  __     __  __     ______   ______     ______     "
+  echo -e "/\ \_\ \   /\ \_\ \   /\  == \ /\  ___\   /\  == \    "
+  echo -e "\ \  __ \  \ \____ \  \ \  _-/ \ \  __\   \ \  __<    "
+  echo -e " \ \_\ \_\  \/\_____\  \ \_\    \ \_____\  \ \_\ \_\  "
+  echo -e "  \/_/\/_/   \/_____/   \/_/     \/_____/   \/_/ /_/  "
+  echo -e " "
+  echo -e " ______   __         __  __     ______                "
+  echo -e "/\  == \ /\ \       /\ \/\ \   /\  ___\               "
+  echo -e "\ \  _-/ \ \ \____  \ \ \_\ \  \ \___  \              "
+  echo -e " \ \_\    \ \_____\  \ \_____\  \/\_____\             "
+  echo -e "  \/_/     \/_____/   \/_____/   \/_____/             "
+  echo -e "                                                 $noco"
 echo -e "$cyan***********************************************"
   echo "          Compiling HyperPlus kernel          "
   echo -e "***********************************************$nocol"
