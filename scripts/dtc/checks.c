@@ -542,7 +542,7 @@ static void check_reg_format(struct check *c, struct node *dt,
 			     struct node *node)
 {
 	struct property *prop;
-	// int addr_cells, size_cells, entrylen;
+	int addr_cells, size_cells, entrylen;
 
 	prop = get_property(node, "reg");
 	if (!prop)
@@ -556,7 +556,7 @@ static void check_reg_format(struct check *c, struct node *dt,
 	if (prop->val.len == 0)
 		FAIL(c, "\"reg\" property in %s is empty", node->fullpath);
 
-	/* addr_cells = node_addr_cells(node->parent);
+	addr_cells = node_addr_cells(node->parent);
 	size_cells = node_size_cells(node->parent);
 	entrylen = (addr_cells + size_cells) * sizeof(cell_t);
 
@@ -564,7 +564,6 @@ static void check_reg_format(struct check *c, struct node *dt,
 		FAIL(c, "\"reg\" property in %s has invalid length (%d bytes) "
 		     "(#address-cells == %d, #size-cells == %d)",
 		     node->fullpath, prop->val.len, addr_cells, size_cells);
-*/
 }
 NODE_WARNING(reg_format, NULL, &addr_size_cells);
 
@@ -572,7 +571,7 @@ static void check_ranges_format(struct check *c, struct node *dt,
 				struct node *node)
 {
 	struct property *prop;
-	// int c_addr_cells, p_addr_cells, c_size_cells, p_size_cells, entrylen;
+	int c_addr_cells, p_addr_cells, c_size_cells, p_size_cells, entrylen;
 
 	prop = get_property(node, "ranges");
 	if (!prop)
@@ -583,7 +582,7 @@ static void check_ranges_format(struct check *c, struct node *dt,
 		return;
 	}
 
-	/* p_addr_cells = node_addr_cells(node->parent);
+	p_addr_cells = node_addr_cells(node->parent);
 	p_size_cells = node_size_cells(node->parent);
 	c_addr_cells = node_addr_cells(node);
 	c_size_cells = node_size_cells(node);
@@ -606,7 +605,6 @@ static void check_ranges_format(struct check *c, struct node *dt,
 		     "#size-cells == %d)", node->fullpath, prop->val.len,
 		     p_addr_cells, c_addr_cells, c_size_cells);
 	}
-*/
 }
 NODE_WARNING(ranges_format, NULL, &addr_size_cells);
 
@@ -627,7 +625,6 @@ static void check_avoid_default_addr_size(struct check *c, struct node *dt,
 	if (!reg && !ranges)
 		return;
 
-/*
 	if (node->parent->addr_cells == -1)
 		FAIL(c, "Relying on default #address-cells value for %s",
 		     node->fullpath);
@@ -635,7 +632,6 @@ static void check_avoid_default_addr_size(struct check *c, struct node *dt,
 	if (node->parent->size_cells == -1)
 		FAIL(c, "Relying on default #size-cells value for %s",
 		     node->fullpath);
-*/
 }
 NODE_WARNING(avoid_default_addr_size, NULL, &addr_size_cells);
 
