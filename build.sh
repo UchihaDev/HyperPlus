@@ -21,8 +21,6 @@ OUT_DIR=~/Desktop/out
 UPLOAD_DIR=~/Desktop/Files/flash_zip
 ANYKERNEL_DIR=$KERNEL_DIR/AnyKernel2
 KERNEL_IMG=~/Desktop/out/arch/arm64/boot/Image.gz
-DT_IMAGE=$OUT_DIR/arch/arm64/boot/dt.img
-DTBTOOL=~/Desktop/tools/tools/dtbToolCM
 
 # Delete these annoying files
 rm -rf mm/.memory.c.swp
@@ -50,15 +48,9 @@ function make_kernel() {
   fi
 }
 
-# Make DT.IMG
-function make_dt(){
-$DTBTOOL -2 -o $DT_IMAGE -s 2048 -p $KERNEL_DIR/scripts/dtc/ $KERNEL_DIR/arch/arm/boot/dts/
-}
-
 # Making zip
 function make_zip() {
 cp $KERNEL_IMG $ANYKERNEL_DIR/kernel-Image.gz
-cp $DT_IMAGE $ANYKERNEL_DIR
 mkdir -p $UPLOAD_DIR
 cd $ANYKERNEL_DIR
 zip -r9 UPDATE-AnyKernel2.zip * -x README UPDATE-AnyKernel2.zip
@@ -103,8 +95,7 @@ case $ch in
   1) echo -e "$cyan***********************************************"
      echo -e "          	Dirty          "
      echo -e "***********************************************$nocol"
-     make_kernel 
-     make_dt ;;
+     make_kernel ;;
   2) echo -e "$cyan***********************************************"
      echo -e "          	Clean          "
      echo -e "***********************************************$nocol"
@@ -114,8 +105,7 @@ case $ch in
      cp -r ~/Desktop/android/scripts/kconfig/zconf.hash.c scripts/kconfig/zconf.hash.c
      cp -r ~/Desktop/android/scripts/kconfig/zconf.lex.c scripts/kconfig/zconf.lex.c
      cp -r ~/Desktop/android/scripts/kconfig/zconf.tab.c scripts/kconfig/zconf.tab.c
-     make_kernel
-     make_dt ;;
+     make_kernel ;;
 esac
 
      echo
@@ -137,10 +127,8 @@ fi
 function cleanup(){
 rm -rf $ANYKERNEL_DIR/kernel-Image.gz
 rm -rf $ANYKERNEL_DIR/Image
-rm -rf $ANYKERNEL_DIR/dt.img
 rm -rf $ANYKERNEL_DIR/modules/*.ko
 rm -rf $KERNEL_DIR/arch/arm/boot/dts/*.dtb
-rm -rf $DT_IMAGE
 }
 
 options
