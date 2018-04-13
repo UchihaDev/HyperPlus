@@ -16,13 +16,14 @@ DEVICE="VKY"
 FINAL_ZIP=$KERNEL_NAME-$VERSION-$DATE-$DEVICE.zip
 
 # Dirs
-KERNEL_DIR=~/Desktop/Code_Opensource
-OUT_DIR=~/Desktop/out
-UPLOAD_DIR=~/Desktop/Files/flash_zip
-ANYKERNEL_DIR=$KERNEL_DIR/AnyKernel2
-KERNEL_IMG=~/Desktop/out/arch/arm64/boot/Image.gz
+KERNEL_DIR=~/HyperPlus/
+OUT_DIR=~/out/
+UPLOAD_DIR=~/Files/flash_zip
+ANYKERNEL_DIR=$KERNEL_DIR/AnyKernel2/
+KERNEL_IMG=~/out/arch/arm64/boot/Image.gz
 DT_IMAGE=$OUT_DIR/arch/arm64/boot/dt.img
-DTBTOOL=~/Desktop/tools/tools/dtbToolCM
+DTBTOOL=~/mkbootimg_tools/dtbToolCM
+TOOLCHAIN="/home/florian/Toolchains/aarch64-linux-android-5.x/bin/aarch64-linux-android-"
 
 # Delete these annoying files
 rm -rf mm/.memory.c.swp
@@ -30,8 +31,7 @@ rm -rf net/.Kconfig.swp
 rm -rf arch/x86/kernel/cpu/bugs_64.c
 
 # Export
-export PATH=$PATH:~/Desktop/tools/toolchain/gcc-linaro-4.9.4/bin
-export CROSS_COMPILE=aarch64-linux-gnu-
+export CROSS_COMPILE="${CCACHE} $TOOLCHAIN"
 
 # Make kernel
 function make_kernel() {
@@ -42,7 +42,7 @@ function make_kernel() {
   echo -e "$cyan***********************************************"
   echo -e "             Building kernel          "
   echo -e "***********************************************$nocol"
-  make ARCH=arm64 O=../out -j8
+  make ARCH=arm64 O=../out -j12
   if ! [ -a $KERNEL_IMG ];
   then
     echo -e "$red Kernel Compilation failed! Fix the errors! $nocol"
@@ -110,10 +110,10 @@ case $ch in
      echo -e "***********************************************$nocol"
      make ARCH=arm64 distclean
      rm -rf ../out
-     cp -r ~/Desktop/android/drivers/huawei_platform/lcd/tools/localperl/lib/5.14.2/x86_64-linux-thread-multi/CORE/libperl.a drivers/huawei_platform/lcd/tools/localperl/lib/5.14.2/x86_64-linux-thread-multi/CORE/libperl.a
-     cp -r ~/Desktop/android/scripts/kconfig/zconf.hash.c scripts/kconfig/zconf.hash.c
-     cp -r ~/Desktop/android/scripts/kconfig/zconf.lex.c scripts/kconfig/zconf.lex.c
-     cp -r ~/Desktop/android/scripts/kconfig/zconf.tab.c scripts/kconfig/zconf.tab.c
+     cp -r ~/Code_Opensource/libperl.a drivers/huawei_platform/lcd/tools/localperl/lib/5.14.2/x86_64-linux-thread-multi/CORE/libperl.a
+     cp -r ~/Code_Opensource/zconf.hash.c scripts/kconfig/zconf.hash.c
+     cp -r ~/Code_Opensource/zconf.lex.c scripts/kconfig/zconf.lex.c
+     cp -r ~/Code_Opensource/zconf.tab.c scripts/kconfig/zconf.tab.c
      make_kernel
      make_dt ;;
 esac
