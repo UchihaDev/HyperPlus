@@ -101,7 +101,7 @@ case $ch in
      echo -e "***********************************************$nocol"
      make ARCH=arm64 distclean
      rm -rf ../out
-     cp -r ~/Desktop/Files/Source_files/libperl.a drivers/huawei_platform/lcd/tools/localperl/lib/5.14.2/x86_64-linux-thread-multi/CORE/libperl.a
+     cp -r ~/Desktop/Files/Source_files/libperl.a drivers/huawei_platform/lcd/tools/localperl/lib/5.14.2/x86_64-linux-thread-multi/CORE/libper$
      cp -r ~/Desktop/Files/Source_files/zconf.hash.c scripts/kconfig/zconf.hash.c
      cp -r ~/Desktop/Files/Source_files/zconf.lex.c scripts/kconfig/zconf.lex.c
      cp -r ~/Desktop/Files/Source_files/zconf.tab.c scripts/kconfig/zconf.tab.c
