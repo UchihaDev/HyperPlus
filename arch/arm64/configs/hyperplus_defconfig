@@ -3,6 +3,7 @@
 # Linux/arm64 4.4.126 Kernel Configuration
 #
 
+CONFIG_FRANDOM=y
 CONFIG_WIREGUARD=y
 # CONFIG_WIREGUARD_DEBUG is not set
 CONFIG_IOSCHED_ZEN=y
