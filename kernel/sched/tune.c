@@ -315,14 +315,9 @@ schedtune_boostgroup_update(int idx, int boost)
 		/* Update the boost value of this boost group */
 		bg->group[idx].boost = boost;
 
-		now = sched_clock_cpu(cpu);
-		/*
-		 * Check if this update increase current max.
-		 */
-		if (boost > cur_boost_max &&
-			schedtune_boost_group_active(idx, bg, now)) {
+		/* Check if this update increase current max */
+		if (boost > cur_boost_max && bg->group[idx].tasks) {
 			bg->boost_max = boost;
-			bg->boost_ts = bg->group[idx].ts;
 
 			trace_sched_tune_boostgroup_update(cpu, 1, bg->boost_max);
 			continue;
@@ -330,7 +325,7 @@ schedtune_boostgroup_update(int idx, int boost)
 
 		/* Check if this update has decreased current max */
 		if (cur_boost_max == old_boost && old_boost > boost) {
-			schedtune_cpu_update(cpu, now);
+			schedtune_cpu_update(cpu);
 			trace_sched_tune_boostgroup_update(cpu, -1, bg->boost_max);
 			continue;
 		}
@@ -362,20 +357,13 @@ schedtune_tasks_update(struct task_struct *p, int cpu, int idx, int task_count)
 
 	/* Update boosted tasks count while avoiding to make it negative */
 	bg->group[idx].tasks = max(0, tasks);
-	/* Update timeout on enqueue */
-	if (task_count > 0) {
-		now = sched_clock_cpu(cpu);
-		if (schedtune_update_timestamp(p))
-			bg->group[idx].ts = now;
-
-		/* Boost group activation or deactivation on that RQ */
-		if (bg->group[idx].tasks == 1)
-			schedtune_cpu_update(cpu, now);
-	}
 
 	trace_sched_tune_tasks_update(p, cpu, tasks, idx,
-			bg->group[idx].boost, bg->boost_max,
-			bg->group[idx].ts);
+			bg->group[idx].boost, bg->boost_max);
+
+	/* Boost group activation or deactivation on that RQ */
+	if (tasks == 1 || tasks == 0)
+		schedtune_cpu_update(cpu);
 }
 
 /*
