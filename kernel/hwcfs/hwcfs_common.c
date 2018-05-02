@@ -327,10 +327,6 @@ static int vip_can_migrate(struct task_struct *p, struct rq *src_rq, struct rq *
 	return 1;
 }
 
-extern void hisi_get_fast_cpus(struct cpumask *cpumask);
-extern void hisi_get_slow_cpus(struct cpumask *cpumask);
-static struct cpumask hisi_slow_cpu_mask;
-
 static int __do_vip_balance(void *data)
 {
 	struct rq *src_rq = data;
