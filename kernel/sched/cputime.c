@@ -7,9 +7,7 @@
 #include <linux/cpufreq.h>
 #include "sched.h"
 #include "walt.h"
-#ifdef CONFIG_CPU_FREQ_POWER_STAT
-#include <linux/cpufreq.h>
-#endif
+#include <linux/cpufreq_times.h>
 
 #ifdef CONFIG_IRQ_TIME_ACCOUNTING
 
@@ -169,9 +167,9 @@ void account_user_time(struct task_struct *p, cputime_t cputime,
 	/* Account for user time used */
 	acct_account_cputime(p);
 
-#ifdef CONFIG_CPU_FREQ_STAT
-	/* Account power usage for system time */
-	acct_update_power(p, cputime);
+#ifdef CONFIG_CPU_FREQ_TIMES
+	/* Account power usage for user time */
+	cpufreq_acct_update_power(p, cputime);
 #endif
 }
 
@@ -224,9 +222,9 @@ void __account_system_time(struct task_struct *p, cputime_t cputime,
 	/* Account for system time used */
 	acct_account_cputime(p);
 
-#ifdef CONFIG_CPU_FREQ_STAT
+#ifdef CONFIG_CPU_FREQ_TIMES
 	/* Account power usage for system time */
-	acct_update_power(p, cputime);
+	cpufreq_acct_update_power(p, cputime);
 #endif
 }
 
