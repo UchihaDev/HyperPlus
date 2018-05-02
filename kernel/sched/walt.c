@@ -55,7 +55,7 @@ __read_mostly unsigned int walt_ravg_window =
 
 static unsigned int sync_cpu;
 static ktime_t ktime_last;
-static __read_mostly bool walt_ktime_suspended;
+static bool walt_ktime_suspended;
 
 static unsigned int task_load(struct task_struct *p)
 {
@@ -104,8 +104,10 @@ walt_dec_cumulative_runnable_avg(struct rq *rq,
 
 static void
 fixup_cumulative_runnable_avg(struct rq *rq,
-			      struct task_struct *p, s64 task_load_delta)
+			      struct task_struct *p, u64 new_task_load)
 {
+	s64 task_load_delta = (s64)new_task_load - task_load(p);
+
 	rq->cumulative_runnable_avg += task_load_delta;
 	if ((s64)rq->cumulative_runnable_avg < 0)
 		panic("cra less than zero: tld: %lld, task_load(p) = %u\n",
@@ -215,7 +217,6 @@ update_window_start(struct rq *rq, u64 wallclock)
 
 	nr_windows = div64_u64(delta, walt_ravg_window);
 	rq->window_start += (u64)nr_windows * (u64)walt_ravg_window;
-	cpufreq_update_util(rq, 0);
 
 	rq->cum_window_demand = rq->cumulative_runnable_avg;
 }
