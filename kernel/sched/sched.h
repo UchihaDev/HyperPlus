@@ -748,7 +748,9 @@ struct rq {
 	unsigned int ttwu_count;
 	unsigned int ttwu_local;
 
+#ifdef CONFIG_SMP
 	struct eas_stats eas_stats;
+#endif
 #endif
 
 #ifdef CONFIG_SMP
@@ -1047,7 +1049,11 @@ static inline void __set_task_cpu(struct task_struct *p, unsigned int cpu)
 	 * per-task data have been completed by this moment.
 	 */
 	smp_wmb();
+#ifdef CONFIG_THREAD_INFO_IN_TASK
+	p->cpu = cpu;
+#else
 	task_thread_info(p)->cpu = cpu;
+#endif
 	p->wake_cpu = cpu;
 #endif
 }
@@ -1251,7 +1257,6 @@ static const u32 prio_to_wmult[40] = {
 
 #define DEQUEUE_SLEEP		0x01
 #define DEQUEUE_SAVE		0x02
-#define DEQUEUE_IDLE		0x80 /* The last dequeue before IDLE */
 
 #define RETRY_TASK		((void *)-1UL)
 
