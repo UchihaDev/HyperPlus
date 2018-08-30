@@ -49,15 +49,6 @@
 #include <huawei_platform/power/hw_kcollect.h>
 #endif
 
-#ifdef CONFIG_BOOST_KILL
-extern void hisi_get_fast_cpus(struct cpumask *cpumask);
-
-/* Add apportunity to config enable/disable boost
- * killing action
- */
-unsigned int sysctl_boost_killing;
-#endif
-
 /*
  * SLAB caches for signal bits.
  */
@@ -894,11 +885,6 @@ static void complete_signal(int sig, struct task_struct *p, int group)
 {
 	struct signal_struct *signal = p->signal;
 	struct task_struct *t;
-/*lint -save -e504*/
-#ifdef CONFIG_BOOST_KILL
-	cpumask_t new_mask = CPU_MASK_ALL;
-#endif
-/*lint -restore*/
 
 	/*
 	 * Now find a thread we can wake up to take the signal off the queue.
@@ -955,15 +941,6 @@ static void complete_signal(int sig, struct task_struct *p, int group)
 			signal->group_stop_count = 0;
 			t = p;
 			do {
-#ifdef CONFIG_BOOST_KILL
-				if (sysctl_boost_killing) {
-					if (can_nice(t, -20))
-						set_user_nice(t, -20);
-					hisi_get_fast_cpus(&new_mask);
-					cpumask_copy(&t->cpus_allowed, &new_mask);
-					t->nr_cpus_allowed = cpumask_weight(&new_mask);
-				}
-#endif
 				task_clear_jobctl_pending(t, JOBCTL_PENDING_MASK);
 				sigaddset(&t->pending.signal, SIGKILL);
 				signal_wake_up(t, 1);

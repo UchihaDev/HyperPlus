@@ -1368,10 +1368,6 @@ enqueue_task_rt(struct rq *rq, struct task_struct *p, int flags)
 {
 	struct sched_rt_entity *rt_se = &p->rt;
 
-#ifdef CONFIG_SMP
-	schedtune_enqueue_task(p, cpu_of(rq));
-#endif
-
 	if (flags & ENQUEUE_WAKEUP)
 		rt_se->timeout = 0;
 
@@ -1412,10 +1408,6 @@ enqueue_task_rt(struct rq *rq, struct task_struct *p, int flags)
 static void dequeue_task_rt(struct rq *rq, struct task_struct *p, int flags)
 {
 	struct sched_rt_entity *rt_se = &p->rt;
-
-#ifdef CONFIG_SMP
-	schedtune_dequeue_task(p, cpu_of(rq));
-#endif
 
 	update_curr_rt(rq);
 	dequeue_rt_entity(rt_se);
@@ -1868,7 +1860,6 @@ static struct rq *find_lock_lowest_rq(struct task_struct *task, struct rq *rq)
 				     !cpumask_test_cpu(lowest_rq->cpu,
 						       tsk_cpus_allowed(task)) ||
 				     task_running(rq, task) ||
-				     !rt_task(task) ||
 				     !task_on_rq_queued(task))) {
 
 				double_unlock_balance(rq, lowest_rq);

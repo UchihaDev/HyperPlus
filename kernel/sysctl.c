@@ -334,15 +334,6 @@ static struct ctl_table kern_table[] = {
 		.mode		= 0644,
 		.proc_handler	= proc_dointvec,
 	},
-#ifdef CONFIG_BOOST_KILL
-	{
-		.procname	= "boost_killing",
-		.data		= &sysctl_boost_killing,
-		.maxlen		= sizeof(int),
-		.mode		= 0644,
-		.proc_handler	= proc_dointvec,
-	},
-#endif
 #ifdef CONFIG_HW_VIP_THREAD
 	{
 		.procname   = "vip_min_sched_delay_granularity",
